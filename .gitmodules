@@ -13,3 +13,6 @@
 [submodule "microservices/mailer"]
 	path = microservices/mailer
 	url = https://github.com/lancersEnt/mailer.git
+[submodule "microservices/users"]
+	path = microservices/users
+	url = https://github.com/lancersEnt/users.git
