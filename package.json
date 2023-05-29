@@ -2,7 +2,9 @@
     "name": "myklad-project",
     "version": "1.0.0",
     "description": "A crowdfunding social media webapp",
-    "scripts": {},
+    "scripts": {
+        "install": "./scripts/install.sh"
+    },
     "repository": {
         "type": "git",
         "url": "git+ssh://git@github.com:lancersEnt/MyKlad.git"
