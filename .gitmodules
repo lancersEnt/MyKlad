@@ -7,3 +7,9 @@
 [submodule "microservices/posts"]
 	path = microservices/posts
 	url = https://github.com/lancersEnt/posts.git
+[submodule "microservices/comments"]
+	path = microservices/comments
+	url = https://github.com/lancersEnt/comments.git
+[submodule "microservices/mailer"]
+	path = microservices/mailer
+	url = https://github.com/lancersEnt/mailer.git
