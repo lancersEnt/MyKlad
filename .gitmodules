@@ -13,3 +13,6 @@
 [submodule "microservices/users"]
 	path = microservices/users
 	url = https://github.com/lancersEnt/users.git
+[submodule "api-gateway"]
+	path = api-gateway
+	url = https://github.com/lancersEnt/api-gateway.git
