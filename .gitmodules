@@ -4,3 +4,6 @@
 [submodule "microservices/social"]
 	path = microservices/social
 	url = https://github.com/lancersEnt/social.git
+[submodule "microservices/posts"]
+	path = microservices/posts
+	url = https://github.com/lancersEnt/posts.git
