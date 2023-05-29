@@ -1,0 +1,15 @@
+{
+    "name": "myklad-project",
+    "version": "1.0.0",
+    "description": "A crowdfunding social media webapp",
+    "scripts": {},
+    "repository": {
+        "type": "git",
+        "url": "git+ssh://git@github.com:lancersEnt/MyKlad.git"
+    },
+    "author": {
+        "name": "Ghassen Saaf",
+        "email": "saafghassen@gmail.com"
+    },
+    "homepage": "https://github.com/lancersEnt/MyKlad#readme"
+}
