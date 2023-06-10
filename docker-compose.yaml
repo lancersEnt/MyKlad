@@ -1,0 +1,67 @@
+version: "3"
+
+services:
+  posts-svc:
+    image: "posts-svc:dev"
+    container_name: "posts-svc"
+    build:
+      context: "./microservices/posts"
+    networks:
+      - "frontend"
+      - "backend"
+      - "postsdomain"
+    expose:
+      - "50051"
+    depends_on:
+      - "posts-db"
+      - "cache"
+    environment:
+      NODE_ENV: "development"
+      DATABASE_URL: "mongodb://saaf95:saaf95@localhost:27017/postsdb?authSource=admin&directConnection=true"
+    healthcheck:
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    restart: "on-failure"
+
+  posts-db:
+    image: prismagraphql/mongo-single-replica:5.0.3
+    container_name: "posts-db"
+    networks:
+      - "postsdomain"
+    ports:
+      - 27017:27017
+    volumes:
+      - postsdata:/var/lib/mongodb/data
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: saaf95
+      MONGO_INITDB_ROOT_PASSWORD: saaf95
+    restart: "on-failure"
+
+  cache:
+    image: "redis:5-alpine"
+    container_name: "redis-cache"
+    networks:
+      - "frontend"
+      - "backend"
+    expose:
+      - "6379"
+    healthcheck:
+      test: ["CMD-SHELL", "sh -c 'redis-cli PING'"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    restart: "on-failure"
+
+networks:
+  frontend:
+  backend:
+  commentsdomain:
+  postsdomain:
+  usersdomain:
+  mailerdomain:
+
+volumes:
+  commentsdata:
+  postsdata:
+  usersdata:

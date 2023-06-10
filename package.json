@@ -13,5 +13,9 @@
         "name": "Ghassen Saaf",
         "email": "saafghassen@gmail.com"
     },
-    "homepage": "https://github.com/lancersEnt/MyKlad#readme"
+    "homepage": "https://github.com/lancersEnt/MyKlad#readme",
+    "dependencies": {
+        "rxjs": "^7.8.1",
+        "rxjs-compat": "^6.6.7"
+    }
 }
