@@ -1,24 +1,108 @@
 version: '3.7'
 
 services:
+  users-svc:
+    image: "users-svc:dev"
+    container_name: "users-svc"
+    build:
+      context: "./microservices/users"
+    # networks:
+    #   - myklad
+    ports:
+      - 9009:9009
+    depends_on:
+      - posts-db
+      - broker
+    restart: "on-failure"
+
   posts-svc:
     image: "posts-svc:dev"
     container_name: "posts-svc"
     build:
       context: "./microservices/posts"
-    networks:
-      - webnet
+    # networks:
+    #   - myklad
     ports:
       - 9119:9119
     depends_on:
       - "posts-db"
     restart: "on-failure"
 
+  comments-svc:
+    image: "comments-svc:dev"
+    container_name: "comments-svc"
+    build:
+      context: "./microservices/comments"
+    # networks:
+    #   - myklad
+    ports:
+      - 9229:9229
+    depends_on:
+      - "posts-db"
+    restart: "on-failure"
+
+  klads-svc:
+    image: "klads-svc:dev"
+    container_name: "klads-svc"
+    build:
+      context: "./microservices/klads"
+    # networks:
+    #   - myklad
+    ports:
+      - 9339:9339
+    depends_on:
+      - "posts-db"
+    restart: "on-failure"
+
+  mailer-svc:
+    image: "mailer-svc:dev"
+    container_name: "mailer-svc"
+    build:
+      context: "./microservices/mailer"
+    # networks:
+    #   - myklad
+    ports:
+      - 9449:9449
+    depends_on:
+      - broker
+      - users-svc
+    restart: "on-failure"
+
+  # notification-svc:
+  #   image: "notification-svc:dev"
+  #   container_name: "notification-svc"
+  #   build:
+  #     context: "./microservices/notification"
+  #   networks:
+  #     - myklad
+  #   ports:
+  #     - 9559:9559
+  #   depends_on:
+  #     - "posts-db"
+  #   restart: "on-failure"
+
+  gateway-svc:
+    image: "gateway-svc:dev"
+    container_name: "gateway-svc"
+    build:
+      context: "./api-gateway"
+    # networks:
+    #   - myklad
+    ports:
+      - 3000:3000
+    depends_on:
+      - users-svc
+      - posts-svc
+      - comments-svc
+      - klads-svc
+      # - notification-svc
+    restart: "on-failure"
+
   posts-db:
     image: prismagraphql/mongo-single-replica:5.0.3
     container_name: "myklad-posts-db"
-    networks:
-      - webnet
+    # networks:
+    #   - myklad
     ports:
       - 27017:27017
     environment:
@@ -38,6 +122,8 @@ services:
     environment:
       - NEO4J_AUTH=none
       - NEO4J_dbms_default__database=myklad
+    # networks:
+    #   - myklad
     volumes:
       - gdb:/data
 
@@ -178,7 +264,7 @@ services:
 
 
 networks:
-  webnet:
+  myklad:
 volumes:
   mongodata:
   gdb:
