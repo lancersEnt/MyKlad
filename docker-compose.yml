@@ -1,72 +1,73 @@
 version: '3.7'
 
 services:
-  users-svc:
-    image: "users-svc:dev"
-    container_name: "users-svc"
-    build:
-      context: "./microservices/users"
-    # networks:
-    #   - myklad
-    ports:
-      - 9009:9009
-    depends_on:
-      - posts-db
-      - broker
-    restart: "on-failure"
 
-  posts-svc:
-    image: "posts-svc:dev"
-    container_name: "posts-svc"
-    build:
-      context: "./microservices/posts"
-    # networks:
-    #   - myklad
-    ports:
-      - 9119:9119
-    depends_on:
-      - "posts-db"
-    restart: "on-failure"
+  # users-svc:
+  #   image: "users-svc:dev"
+  #   container_name: "users-svc"
+  #   build:
+  #     context: "./microservices/users"
+  #   # networks:
+  #   #   - myklad
+  #   ports:
+  #     - 9009:9009
+  #   depends_on:
+  #     - posts-db
+  #     - broker
+  #   restart: "on-failure"
 
-  comments-svc:
-    image: "comments-svc:dev"
-    container_name: "comments-svc"
-    build:
-      context: "./microservices/comments"
-    # networks:
-    #   - myklad
-    ports:
-      - 9229:9229
-    depends_on:
-      - "posts-db"
-    restart: "on-failure"
+  # posts-svc:
+  #   image: "posts-svc:dev"
+  #   container_name: "posts-svc"
+  #   build:
+  #     context: "./microservices/posts"
+  #   # networks:
+  #   #   - myklad
+  #   ports:
+  #     - 9119:9119
+  #   depends_on:
+  #     - "posts-db"
+  #   restart: "on-failure"
 
-  klads-svc:
-    image: "klads-svc:dev"
-    container_name: "klads-svc"
-    build:
-      context: "./microservices/klads"
-    # networks:
-    #   - myklad
-    ports:
-      - 9339:9339
-    depends_on:
-      - "posts-db"
-    restart: "on-failure"
+  # comments-svc:
+  #   image: "comments-svc:dev"
+  #   container_name: "comments-svc"
+  #   build:
+  #     context: "./microservices/comments"
+  #   # networks:
+  #   #   - myklad
+  #   ports:
+  #     - 9229:9229
+  #   depends_on:
+  #     - "posts-db"
+  #   restart: "on-failure"
 
-  mailer-svc:
-    image: "mailer-svc:dev"
-    container_name: "mailer-svc"
-    build:
-      context: "./microservices/mailer"
-    # networks:
-    #   - myklad
-    ports:
-      - 9449:9449
-    depends_on:
-      - broker
-      - users-svc
-    restart: "on-failure"
+  # klads-svc:
+  #   image: "klads-svc:dev"
+  #   container_name: "klads-svc"
+  #   build:
+  #     context: "./microservices/klads"
+  #   # networks:
+  #   #   - myklad
+  #   ports:
+  #     - 9339:9339
+  #   depends_on:
+  #     - "posts-db"
+  #   restart: "on-failure"
+
+  # mailer-svc:
+  #   image: "mailer-svc:dev"
+  #   container_name: "mailer-svc"
+  #   build:
+  #     context: "./microservices/mailer"
+  #   # networks:
+  #   #   - myklad
+  #   ports:
+  #     - 9449:9449
+  #   depends_on:
+  #     - broker
+  #     - users-svc
+  #   restart: "on-failure"
 
   # notification-svc:
   #   image: "notification-svc:dev"
@@ -81,22 +82,22 @@ services:
   #     - "posts-db"
   #   restart: "on-failure"
 
-  gateway-svc:
-    image: "gateway-svc:dev"
-    container_name: "gateway-svc"
-    build:
-      context: "./api-gateway"
-    # networks:
-    #   - myklad
-    ports:
-      - 3000:3000
-    depends_on:
-      - users-svc
-      - posts-svc
-      - comments-svc
-      - klads-svc
-      # - notification-svc
-    restart: "on-failure"
+  # gateway-svc:
+  #   image: "gateway-svc:dev"
+  #   container_name: "gateway-svc"
+  #   build:
+  #     context: "./api-gateway"
+  #   # networks:
+  #   #   - myklad
+  #   ports:
+  #     - 3000:3000
+  #   depends_on:
+  #     - users-svc
+  #     - posts-svc
+  #     - comments-svc
+  #     - klads-svc
+  #     # - notification-svc
+  #   restart: "on-failure"
 
   posts-db:
     image: prismagraphql/mongo-single-replica:5.0.3
@@ -126,6 +127,15 @@ services:
     #   - myklad
     volumes:
       - gdb:/data
+
+  cache:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning --requirepass TESTtest1234
+    volumes: 
+      - cache:/data
 
   broker:
     image: confluentinc/cp-kafka:7.4.0
@@ -268,4 +278,6 @@ networks:
 volumes:
   mongodata:
   gdb:
+    driver: local
+  cache:
     driver: local

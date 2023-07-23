@@ -1,4 +1,4 @@
-# MyKlad GraphQL API + gRPC Microservices
+# MyKlad GraphQL Microservices API
 
 This project is [Multi-Repo] project containing a [GraphQL](https://graphql.org/) API with [Apollo_federation](https://www.apollographql.com/docs/federation/), [Apollo_Gateway](https://www.apollographql.com/docs/federation/v1/gateway/) back-end microservices using [Kafka](https://kafka.apache.org/) as a stream-processing plateform, built using the [NestJS_framework](https://nestjs.com/).
 This project is created as an end of study project and is used mainly for learning purposes.
