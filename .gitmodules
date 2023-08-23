@@ -19,3 +19,6 @@
 [submodule "microservices/klads"]
 	path = microservices/klads
 	url = https://github.com/lancersEnt/klads.git
+[submodule "microservices/messages"]
+	path = microservices/messages
+	url = https://github.com/lancersEnt/messages.git
